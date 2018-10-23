@@ -1,0 +1,124 @@
+#!/bin/bash
+batch=$(($1+1 + ($2-1)*10))
+bs=2
+
+# Table 1 L-DB
+
+for n in 50 100 250 500; do
+for thres in -0.25 0 0.25; do
+
+R -q --vanilla --args $bs $batch 2 $n 'NA' 'NA' 'norm' 1 0.5 0.5 $thres 'gaussian' 0.1 'DB' 1000 500 'res_chngpt_table1'  <hinge_sim.R >hinge_sim.out 2>hinge_sim.err
+
+done
+done
+
+# Table 1 L-B and L-FDB
+
+for n in 50 100 250 500; do
+for thres in -0.25 0 0.25; do
+for method in 'B' 'FDB'; do
+
+R -q --vanilla --args $bs $batch 2 $n 'NA' 'NA' 'norm' 1 0.5 0.5 $thres 'gaussian' 0.1 $method 10000 'NA' 'res_chngpt_table1'  <hinge_sim.R >hinge_sim.out 2>hinge_sim.err
+
+done
+done
+done
+
+# Table 2
+
+for n in 50 100 250 500; do
+for lb_quantile in 0.1 0.2 0.3 0.4; do
+for method in 'B' 'FDB'; do
+
+R -q --vanilla --args $bs $batch 2 $n "NA" "NA" "norm" 1 0.5 0.4 "NA" 'gaussian' $lb_quantile $method 10000 "NA" 'res_chngpt_table2'  <hinge_sim.R >hinge_sim.out 2>hinge_sim.err
+
+done
+done
+done
+
+# Table 3
+
+for n in 50 100 250 500; do
+for e in -0.25 0 0.25; do
+for method in 'B' 'FDB'; do
+
+R -q --vanilla --args $bs $batch 2 $n "hinge" $e "norm" 1 0.5 0.4 "NA" 'gaussian' 0.1 $method 10000 "NA" 'res_chngpt_table3'  <hinge_sim.R >hinge_sim.out 2>hinge_sim.err
+
+done
+done
+done
+
+# Table 4
+
+for n in 50 100 250 500 1000 2000; do
+for thres in -0.25 0 0.25; do
+for method in 'B' 'FDB'; do
+
+R -q --vanilla --args $bs $batch 2 $n 'NA' 'NA' "norm" 0 1 0.5 $thres 'binomial' 0.1 $method 1000 "NA" 'res_chngpt_table4'  <hinge_sim.R >hinge_sim.out 2>hinge_sim.err
+
+done
+done
+done
+
+# Table 5 size
+
+for n in 250 500 1000 2000; do
+for method in 'B' 'FDB'; do
+
+R -q --vanilla --args $bs $batch 2 $n "NA" "NA" "norm" 0 1 0.4 "NA" 'binomial' 0.1 $method 1000 "NA" 'res_chngpt_table5'  <hinge_sim.R >hinge_sim.out 2>hinge_sim.err
+
+done
+done
+
+# Table 5 power
+
+for n in 250 500 1000 2000; do
+for e in -0.25 0 0.25; do
+for method in 'B' 'FDB'; do
+
+R -q --vanilla --args $bs $batch 2 $n 'hinge' $e "norm" 0 1 0.4 "NA" 'binomial' 0.1 $method 1000 "NA" 'res_chngpt_table5'  <hinge_sim.R >hinge_sim.out 2>hinge_sim.err
+
+done
+done
+done
+
+# Table A.1 size
+
+for n in 50 100 250 500; do
+
+R -q --vanilla --args $bs $batch 10 $n 'NA' 'NA' "norm" 1 0.5 0.4 "NA" 'gaussian' 0.1 'FDB' 10000 "NA" 'res_chngpt_tableA1'  <hinge_sim.R >hinge_sim.out 2>hinge_sim.err
+
+done
+
+# Table A.1 power
+
+for n in 50 100 250 500; do
+for e in -0.25 0 0.25; do
+
+R -q --vanilla --args $bs $batch 10 $n 'hinge' $e "norm" 1 0.5 0.4 "NA" 'gaussian' 0.1 'FDB' 10000 "NA" 'res_chngpt_tableA1'  <hinge_sim.R >hinge_sim.out 2>hinge_sim.err
+
+done
+done
+
+# Table A.2 size
+
+for n in 250 500 1000 2000; do
+
+R -q --vanilla --args $bs $batch 10 $n 'NA' 'NA' "norm" 0 1 0.4 "NA" 'binomial' 0.1 'FDB' 1000 "NA" 'res_chngpt_tableA2'  <hinge_sim.R >hinge_sim.out 2>hinge_sim.err
+
+done
+
+# Table A.2 power
+
+for n in 250 500 1000 2000; do
+for e in -0.25 0 0.25; do
+
+
+R -q --vanilla --args $bs $batch 10 $n 'hinge' $e "norm" 0 1 0.4 "NA" 'binomial' 0.1 'FDB' 1000 "NA" 'res_chngpt_tableA2'  <hinge_sim.R >hinge_sim.out 2>hinge_sim.err
+
+done
+done
+
+: <<'QWERTY'
+ 
+QWERTY
