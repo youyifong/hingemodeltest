@@ -1,6 +1,6 @@
 # !/bin/bash
 
 for i in  `seq 1 10`; do
-srun -t 3-3  -n 10  --multi-prog yh$i.conf &
+srun -t 3-3  -n 10  --multi-prog config/yh$i.conf &
 done
 
